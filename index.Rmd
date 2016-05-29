@@ -1,0 +1,82 @@
+---
+title       : BOTANICAL CLOCK
+subtitle    : by Carolus Linnaeus
+author      : Urli2016
+job         : Reproducible Presentation
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+##### BOTANICAL CLOCK, GENERAL INFORMATION, Slide 1
+```{r}
+library(shiny)
+library(ggplot2)
+library(knitr)
+library(markdown)
+Flowers <- read.csv("Flowers.csv")
+```
+
+###### Carolus Linnaeus has been an awarded scientist in the 17th century and he had the hypothetical plan to plant a clock ruled by the opening and closing times of different flowers. He had a list by his own, I only took a few and created my own csv-file called 'Flowers.csv' ordered by opening times.
+
+---
+
+##### BOTANICAL CLOCK, DESCRIPTION, Slide 2
+###### I decided to use a ShinyUI(navbarPage) as it has not been used in the class. One of our tasks was to implement a widget. I created a selectbox in order to show the botanical names of these flowers in latin and therefore recognizable by scientists all over the world. I also added a Markdown-File including the biography of Carolus Linnaeus and a rough description of the flowers.
+
+```{r}
+shinyUI(navbarPage("BOTANICAL CLOCK",
+                   tabPanel("Description",
+                            sidebarLayout(
+                                 sidebarPanel(
+                                 selectInput("select", label = h3("Botanical Names of Flowers"),                                                                         choices = list("Yellow Goats Beard" = "Tragopogon pratensis", "Rough Hawkbit" = "Leontodon hispidus", "Narrow Leaf Hawksbeard" = "Crepis tectorum", "Sow Thistle" = "Sonchus oleraceus", "Dandelion" = "Taraxacum officinale Weber", "Hawksbeard" = "Crepis alpina", "False Sow Thistle" = "Reichardia tingitana", "Spotted Cats Ear" = "Hypochaeris maculata", "Canadian Hawkweed" = "Hieracium umbellatum", "Marsh Sow Thistle" = "Sonchus palustris", "Blue Sow Thistle" = "Cicerbita alpina", "Garden Lettuce" = "Lactuca sativa", "White Waterlily" = "Nymphaea alba", "Scarlet Pimpernel" = "Anagallis arvensis", "Ice Plant" = "Mesembryanthemum crystallinum", "Quill FameFlower" = "Phemerantus teretifolius", "Sundrops" = "Oenothera fruticosa")),
+                                     hr(),
+                                     fluidRow(column(10, verbatimTextOutput("value"))
+                                 )
+                                 ),
+                                 mainPanel(
+                                        includeMarkdown("Description.md"))
+                                 ))))
+```
+
+---
+
+##### BOTANICAL CLOCK, PLOT, Slide 3
+###### Vizualization of the Opening and Closing Times of the flowers in alphabetical order. The code had to be wrapped in the command print() on the Shiny server side.
+
+```{r, echo=TRUE}
+ggplot(data=Flowers, aes(x=CLOSING,y=OPENING,fill=FLOWER)) +
+                geom_bar(position="dodge",stat="identity") +
+                ggtitle("Botanical Clock")
+```
+
+---
+
+##### BOTANICAL CLOCK, EVEN MORE, Slide 4
+###### Nowadays botanical or flower clocks look totally different. In fact these are planted large decorative clocks with the clock face formed by carpet bedding, usually found in a park or other public recreation area. I embedded another Markdown-File called 'More.md' as follows:
+
+```{r}
+tabPanel("More",
+              mainPanel(
+                      fluidRow(
+                              column(10,
+                                     includeMarkdown("More.md")))))
+```
+
+---
+
+#### BOTANICAL CLOCK, PICTURE OF A CURRENT FLOWER CLOCK, Slide 5
+###### As the cherry of the pie I finally wanted to show a picture of how a botanical or flower clock looks like nowadays and I added one of Germany as I am a german. Please find all related files hosted in my github repository 'https://github.com/Urli2016/GitHub/tree/master/BotanicalCl_A/BotanicalClockA/BotanicalClockA'.
+
+```{r}
+img(class="img-polaroid",
+      src=paste0("http://upload.wikimedia.org/",
+                 "wikipedia/commons/f/fa/",
+                 "Eilenburg_Blumenuhr2.jpg"),
+          tags$small("Users own work, Photographed by Joebo7 3rd May 2009",
+                  a(href="http://commons.wikimedia.org/wiki/File%3AEilenburg_Blumenuhr2.jpg")))
+```
+
